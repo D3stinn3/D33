@@ -74,3 +74,36 @@ def the_glass_house1():
 
 the_glass_house('*', '#')
 the_glass_house1()
+
+
+class Bank(): # Bank and Atm creation and state of country!
+    crisis = False
+    
+    def atm(self):
+        while not self.crisis: # crisis/exhaustion control on generators in banking application
+            yield '1000ksh'
+    
+kenya_commercial_bank = Bank()
+uhuru_highway_atm = kenya_commercial_bank.atm()
+
+print(uhuru_highway_atm.__next__())
+print(uhuru_highway_atm.__next__()) # the atm will serve gracefully when there is no crisis!
+print([uhuru_highway_atm.__next__() for cash in range(3)]) # list comprehension
+juja_atm = kenya_commercial_bank.atm()
+print([juja_atm.__next__() for cash in range(3)])
+# this leads us to when crisis is on the way...
+
+try:
+    kenya_commercial_bank.crisis = True 
+    # the crisis is on, this translates to the atm
+
+    print(uhuru_highway_atm.__next__())
+     # the bank atm gives out no money!
+
+    juja_atm = kenya_commercial_bank.atm()
+    print([juja_atm.__next__() for cash in range(3)])
+
+
+except StopIteration as si:
+    
+    print(f'{si} signal error! cant process any more cash!')
